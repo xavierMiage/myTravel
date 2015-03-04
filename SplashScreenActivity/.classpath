@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="/Users/xavier/Desktop/Projet Android/ormlite-android-4.48.jar"/>
+	<classpathentry kind="lib" path="/Users/xavier/Desktop/Projet Android/ormlite-core-4.48.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/xavier/Desktop/Projet Android/simple-xml-2.7.1.jar"/>
+	<classpathentry kind="lib" path="/Users/xavier/Dropbox/Cours L3 Xavier/adt-bundle-mac-x86_64-20130219/sdk/extras/android/support/v4/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="/Users/xavier/Dropbox/Cours L3 Xavier/adt-bundle-mac-x86_64-20130219/sdk/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

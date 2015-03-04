@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<models.TakeMeTour>
+	<id>14</id>
+	<morningItem>
+		<id>9</id>
+	</morningItem>
+	<afternoonItem>
+		<id>10</id>
+	</afternoonItem>
+	<nightItem>
+		<id>9</id>
+	</nightItem>
+</models.TakeMeTour>

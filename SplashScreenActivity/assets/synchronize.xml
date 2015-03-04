@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SynchronizationResponse>
+	<GeographicalAreaList>
+		<GeographicalArea id="3">
+			<name>Nantes</name>
+			<description>Nantes est une commune de l'Ouest de la France, situee
+				au sud du massif armoricain, qui s'etend sur les rives de la Loire,
+				a 50 km de l'ocean Atlantique.
+			</description>
+			<longitude>-1.551529</longitude>
+			<latitude>47.21607</latitude>
+			<image />
+			<createdOn>2015-03-04 14:25:31 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:31 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</GeographicalArea>
+		<GeographicalArea id="4">
+			<name>Pornic</name>
+			<description>Pornic est une commune de l'Ouest de la France, dans le
+				departement de la Loire-Atlantique. La commune fait partie de la
+				Bretagne historique, dans le pays traditionnel du pays de Retz et
+				dans le pays historique du Pays nantais.
+			</description>
+			<longitude>-2.103981</longitude>
+			<latitude>47.11535</latitude>
+			<image />
+			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</GeographicalArea>
+		<GeographicalArea id="5">
+			<name>Saint Brevin</name>
+			<description>Saint-Brevin-les-Pins est une commune de l'Ouest de la
+				France, dans le departement de la Loire-Atlantique. La commune fait
+				partie de la Bretagne historique, dans le pays traditionnel du pays
+				de Retz et dans le pays historique du Pays nantais.
+			</description>
+			<longitude>-2.165007</longitude>
+			<latitude>47.24661</latitude>
+			<image />
+			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</GeographicalArea>
+	</GeographicalAreaList>
+	<ThemeList>
+		<Theme id="6">
+			<name>Culture</name>
+			<image />
+			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</Theme>
+		<Theme id="7">
+			<name>Restaurants</name>
+			<image />
+			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</Theme>
+		<Theme id="8">
+			<name>Pratique</name>
+			<image />
+			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</Theme>
+	</ThemeList>
+	<TourItemList>
+		<TourItem id="9">
+			<GeographicalArea id="3" />
+			<Theme id="7" />
+			<name>La Cigale</name>
+			<summary>La Cigale EST La Cigale, et c'est a Nantes que cela se passe
+				depuis plus d'un siecle</summary>
+			<description>La Cigale n'est pas un restaurant comme les autres. Ce
+				n'est pas une enieme brasserie de France a ouvrir a 7h30 et a fermer
+				ses portes a minuit et demi pour mieux recommencer le jour suivant.
+				\nLa Cigale EST La Cigale et c'est a Nantes que cela se passe depuis
+				plus d'un siecle.</description>
+			<ImageList>
+				<Image />
+				<Image />
+				<Image />
+			</ImageList>
+			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</TourItem>
+		<TourItem id="10">
+			<GeographicalArea id="4" />
+			<Theme id="6" />
+			<name>Cinema Saint Gilles</name>
+			<summary>Cinema de Pornic.</summary>
+			<description>Le cinema Saint Gilles se trouve a Pornic.</description>
+			<ImageList>
+				<Image />
+				<Image />
+				<Image />
+			</ImageList>
+			<createdOn>2015-03-04 14:25:33 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:33 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</TourItem>
+	</TourItemList>
+	<CoordinateList>
+		<Coordinate id="11">
+			<TourItem id="9" />
+			<email>lacigale@nantes.fr</email>
+			<address>lacigale@nantes.fr</address>
+			<website>30 de la-bas, 44000 Nantes</website>
+			<longitude>-1.55152</longitude>
+			<latitude>47.21607</latitude>
+			<createdOn>2015-03-04 14:25:33 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:33 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</Coordinate>
+		<Coordinate id="12">
+			<TourItem id="10" />
+			<email>cinemasaintgilles@pornic.fr</email>
+			<address>cinemasaintgilles@pornic.fr</address>
+			<website>14 de la-haut, 44210 Pornic</website>
+			<longitude>-1.551529</longitude>
+			<latitude>47.21607</latitude>
+			<createdOn>2015-03-04 14:25:33 GMT</createdOn>
+			<updatedOn>2015-03-04 14:25:33 GMT</updatedOn>
+			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
+		</Coordinate>
+	</CoordinateList>
+	<ConfigurationList>
+		<Configuration key="BACKGROUND_COLOR">FFFFFF</Configuration>
+		<Configuration key="TITLE_COLOR">000000
+		</Configuration>
+		<Configuration key="DESCRIPTION_COLOR">000000
+		</Configuration>
+		<Configuration key="HEADER_BACKGROUND_COLOR">EEEEEE</Configuration>
+		<Configuration key="HEADER_FOREGROUND_COLOR">000000</Configuration>
+		<Configuration key="HEADLINE">Pays de la Loire</Configuration>
+		<Configuration key="LOGO" />
+		<Configuration key="MAIN_PICTURE" />
+	</ConfigurationList>
+</SynchronizationResponse>

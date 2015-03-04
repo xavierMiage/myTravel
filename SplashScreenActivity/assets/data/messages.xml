@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<models.Message>
+		<id>13</id>
+		<subject>message d'initialisation</subject>
+		<text>Voila le message d'initialisation, toutes les donnees ont ete
+			chargees</text>
+	</models.Message>
+</list>
