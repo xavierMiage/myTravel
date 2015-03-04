@@ -716,7 +716,7 @@ public class MainActivity extends Activity {
 			this.getSettingsListView().setItemChecked(i, false);
 		}
 		
-		//  Executes the runnable associated to the item
+		// Executes the runnable associated to the item
 		this.navigationItemList.get(position).getRunnable().run();
 		
 		// Closes the drawer
