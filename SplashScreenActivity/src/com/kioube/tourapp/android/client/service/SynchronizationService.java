@@ -15,7 +15,6 @@ import org.simpleframework.xml.core.Persister;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.kioube.tourapp.android.client.R;
@@ -276,7 +275,7 @@ public class SynchronizationService {
 			
 			@Override
 			public void run() {
-				//String urlString = null;
+				String urlString = null;
 				
 				// Deserializes from URL
 				Serializer serializer = new Persister(new AnnotationStrategy());
@@ -285,18 +284,18 @@ public class SynchronizationService {
 				InputStream stream = null;
 				
 				try {
-					//urlString = SynchronizationService.this.getServiceUrl();
+					urlString = SynchronizationService.this.getServiceUrl();
+					stream = SynchronizationService.this.getServiceStream();
 					
 					Log.d(LOG_TAG, "Synchronizing from 'assets'.");
-					
-					//if (urlString != null) {
-						//URL url = new URL(urlString);
+
+					if (stream != null) {
+						URL url = new URL(urlString);
 						//InputStream stream = url.openStream();
-					stream = SynchronizationService.this.getServiceStream();
-					Log.d(LOG_TAG, stream.toString());
+						Log.d(LOG_TAG, url.toString());
 						
-					response = serializer.read(SynchronizationResponse.class, stream);
-					//}
+						response = serializer.read(SynchronizationResponse.class, stream);
+					}
 					
 					// Save data
 					if (response != null) {
@@ -306,7 +305,7 @@ public class SynchronizationService {
 						SynchronizationService.this.persistTourItemList(response.getTourItemList());
 						SynchronizationService.this.persistTourItemImageList(response.getTourItemList());
 						SynchronizationService.this.persistCoordinateList(response.getCoordinateList());
-						SynchronizationService.this.persistConfigurationList(response.getConfigurationList());
+						//SynchronizationService.this.persistConfigurationList(response.getConfigurationList());
 					}
 					else {
 						throw new Exception("Service response is null using 'assets'.");

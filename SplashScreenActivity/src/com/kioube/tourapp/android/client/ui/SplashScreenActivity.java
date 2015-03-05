@@ -153,7 +153,7 @@ public class SplashScreenActivity extends Activity {
 		// TODO [2014-03-xx, JMEL] Remove this fake load time when the data loading is implemented
 		
 		// Check for internet connection
-		if (!this.internetConnectionHelper.isInternetConnectionAvailable()) {
+		/*if (!this.internetConnectionHelper.isInternetConnectionAvailable()) {
 		new AlertDialog.Builder(this)
 			.setTitle(this.getResources().getString(R.string.no_network))
 			.setMessage(this.getResources().getString(R.string.no_network_details))
@@ -169,7 +169,7 @@ public class SplashScreenActivity extends Activity {
 		}
 		
 		// Runs synchronization
-		else {
+		else {*/
 			SynchronizationService service = new SynchronizationService(this, new ServiceListener() {
 				
 				// Occurs when the sync is done
@@ -233,7 +233,7 @@ public class SplashScreenActivity extends Activity {
 			});
 			
 			service.run();
-		}
+		//}
 	}
 	
 	/**

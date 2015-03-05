@@ -9,7 +9,7 @@
 			</description>
 			<longitude>-1.551529</longitude>
 			<latitude>47.21607</latitude>
-			<image />
+			<!-- image /> -->
 			<createdOn>2015-03-04 14:25:31 GMT</createdOn>
 			<updatedOn>2015-03-04 14:25:31 GMT</updatedOn>
 			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
@@ -23,7 +23,7 @@
 			</description>
 			<longitude>-2.103981</longitude>
 			<latitude>47.11535</latitude>
-			<image />
+			<!-- image /> -->
 			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
 			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
 			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
@@ -37,7 +37,7 @@
 			</description>
 			<longitude>-2.165007</longitude>
 			<latitude>47.24661</latitude>
-			<image />
+			<!-- image /> -->
 			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
 			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
 			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
@@ -46,21 +46,21 @@
 	<ThemeList>
 		<Theme id="6">
 			<name>Culture</name>
-			<image />
+			<!-- image /> -->
 			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
 			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
 			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
 		</Theme>
 		<Theme id="7">
 			<name>Restaurants</name>
-			<image />
+			<!-- image /> -->
 			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
 			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
 			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
 		</Theme>
 		<Theme id="8">
 			<name>Pratique</name>
-			<image />
+			<!-- image /> -->
 			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
 			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
 			<deletedOn>1970-01-01 00:00:00 GMT</deletedOn>
@@ -79,9 +79,9 @@
 				\nLa Cigale EST La Cigale et c'est a Nantes que cela se passe depuis
 				plus d'un siecle.</description>
 			<ImageList>
-				<Image />
-				<Image />
-				<Image />
+			    <!-- image /> -->
+			    <!-- image /> -->
+			    <!-- image /> -->
 			</ImageList>
 			<createdOn>2015-03-04 14:25:32 GMT</createdOn>
 			<updatedOn>2015-03-04 14:25:32 GMT</updatedOn>
@@ -94,9 +94,9 @@
 			<summary>Cinema de Pornic.</summary>
 			<description>Le cinema Saint Gilles se trouve a Pornic.</description>
 			<ImageList>
-				<Image />
-				<Image />
-				<Image />
+			    <!-- image /> -->
+			    <!-- image /> -->
+			    <!-- image /> -->
 			</ImageList>
 			<createdOn>2015-03-04 14:25:33 GMT</createdOn>
 			<updatedOn>2015-03-04 14:25:33 GMT</updatedOn>
@@ -136,7 +136,7 @@
 		<Configuration key="HEADER_BACKGROUND_COLOR">EEEEEE</Configuration>
 		<Configuration key="HEADER_FOREGROUND_COLOR">000000</Configuration>
 		<Configuration key="HEADLINE">Pays de la Loire</Configuration>
-		<Configuration key="LOGO" />
-		<Configuration key="MAIN_PICTURE" />
+		<!-- Configuration key="LOGO" / >
+		<Configuration key="MAIN_PICTURE" / -->
 	</ConfigurationList>
 </SynchronizationResponse>

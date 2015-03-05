@@ -45,7 +45,7 @@ public class DatabaseManager {
 		if (this.databaseHelper == null) {
 			this.databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
 		}
-		
+
 		return this.databaseHelper;
 	}
 	
