@@ -1,5 +1,6 @@
 package com.kioube.tourapp.android.client.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -90,6 +91,18 @@ public class TakeMeATourService {
 	}
 	
 	/**
+	 * @author xavier
+	 * 
+	 * Return an input stream of tmt.xml stored in the assets folder
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	private InputStream getServiceStream() throws IOException {
+		return TakeMeATourService.this.getContext().getAssets().open("tmt.xml");
+	}
+	
+	/**
 	 * Runs the messages service
 	 */
 	public void run() {
@@ -99,21 +112,22 @@ public class TakeMeATourService {
 			
 			@Override
 			public void run() {
-				String urlString = null;
+				//String urlString = null;
 				
 				// Deserializes from URL
 				Serializer serializer = new Persister(new AnnotationStrategy());
+				InputStream stream = null;
 				
 				TakeMeATourResponse response = null;
 				
 				try {
-					urlString = TakeMeATourService.this.getServiceUrl();
+					//urlString = TakeMeATourService.this.getServiceUrl();
+					stream = TakeMeATourService.this.getServiceStream();
+					Log.d(LOG_TAG, "Loading take me a tour info from 'tmt.xml'.");
 					
-					Log.d(LOG_TAG, "Loading take me a tour info from '" + urlString + "'.");
-					
-					if (urlString != null) {
-						URL url = new URL(urlString);
-						InputStream stream = url.openStream();
+					if (stream != null) {
+						//URL url = new URL(urlString);
+						//InputStream stream = url.openStream();
 						
 						response = serializer.read(TakeMeATourResponse.class, stream);
 					}
@@ -128,7 +142,7 @@ public class TakeMeATourService {
 					// Sends back the exception
 					if (TakeMeATourService.this.getListener() != null) {
 						TakeMeATourService.this.getListener().onError(new Exception(
-							"Failed to get tour infos from '" + urlString + "'.",
+							"Failed to get tour infos from 'tmt.xml'.",
 							e
 						));
 					}

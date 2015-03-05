@@ -1,5 +1,6 @@
 package com.kioube.tourapp.android.client.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -90,6 +91,18 @@ public class MessageService {
 	}
 	
 	/**
+	 * @author xavier
+	 * 
+	 * Open message.xml in the assets and return a input stream
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	private InputStream getServiceStream() throws IOException {
+		return this.getContext().getAssets().open("message.xml");
+	}
+	
+	/**
 	 * Runs the messages service
 	 */
 	public void run() {
@@ -99,21 +112,23 @@ public class MessageService {
 			
 			@Override
 			public void run() {
-				String urlString = null;
+				//String urlString = null;
 				
 				// Deserializes from URL
 				Serializer serializer = new Persister(new AnnotationStrategy());
+				InputStream stream = null;
 				
 				MessageResponse response = null;
 				
 				try {
-					urlString = MessageService.this.getServiceUrl();
+					//urlString = MessageService.this.getServiceUrl();
+					stream = MessageService.this.getServiceStream();
 					
-					Log.d(LOG_TAG, "Loading messages from '" + urlString + "'.");
+					Log.d(LOG_TAG, "Loading messages from 'message.xml'.");
 					
-					if (urlString != null) {
-						URL url = new URL(urlString);
-						InputStream stream = url.openStream();
+					if (stream != null) {
+						//URL url = new URL(urlString);
+						//InputStream stream = url.openStream();
 						
 						response = serializer.read(MessageResponse.class, stream);
 					}
@@ -128,7 +143,7 @@ public class MessageService {
 					// Sends back the exception
 					if (MessageService.this.getListener() != null) {
 						MessageService.this.getListener().onError(new Exception(
-							"Failed to get messages from '" + urlString + "'.",
+							"Failed to get messages from 'message.xml'.",
 							e
 						));
 					}
