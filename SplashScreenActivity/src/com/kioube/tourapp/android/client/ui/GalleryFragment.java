@@ -2,13 +2,16 @@ package com.kioube.tourapp.android.client.ui;
 
 import java.util.List;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Gallery;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.kioube.tourapp.android.client.R;
 import com.kioube.tourapp.android.client.domain.TourItem;
@@ -76,29 +79,26 @@ public class GalleryFragment extends FragmentBase {
 	public View onCreateView(LayoutInflater inflater,
 		ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		
+				
+		Context context = null;
 		// Inflate the layout for this fragment
 		this.view = inflater.inflate(R.layout.fragment_gallery, container, false);
 		
 		// Fills the thumbnail GridView
 		this.tourItemImageList = this.tourItemImageRepository.getByTourItem(this.getTourItem());
 		
-		GridView thumbnailGridView = (GridView) this.getView().findViewById(R.id.thumbnail_grid_view);
-		thumbnailGridView.setAdapter(new ThumbnailItemAdapter(
-			this.getActivity(),
-			this.tourItemImageList
-		));
+		Gallery gallery = (Gallery) this.getView().findViewById(R.id.galleryPhoto);
+		gallery.setAdapter(new ThumbnailItemAdapter(this.getActivity(), this.tourItemImageList));		
 		
-		// Sets the item clicked event
-		thumbnailGridView.setOnItemClickListener(new OnItemClickListener() {
-			
-			@Override
-	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		gallery.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				//selectedImage.setImageResource(mImageIds[position]);					
 				GalleryFragment.this.getMainActivity().browseToImage(
-					tourItemImageList.get(position)
-				);
-	        }
-	    });
+						tourItemImageList.get(position)
+					);				
+			}
+		});
 		
 		return this.view;
 	}
