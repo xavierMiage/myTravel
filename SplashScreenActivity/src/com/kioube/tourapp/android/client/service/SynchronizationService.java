@@ -260,7 +260,7 @@ public class SynchronizationService {
 	 * @throws IOException
 	 * 
 	 */
-	public InputStream getServiceStream() throws IOException {
+	private InputStream getServiceStream() throws IOException {
 		
 		return this.getContext().getAssets().open("synchronize.xml");
 	}
@@ -275,7 +275,7 @@ public class SynchronizationService {
 			
 			@Override
 			public void run() {
-				String urlString = null;
+				//String urlString = null;
 				
 				// Deserializes from URL
 				Serializer serializer = new Persister(new AnnotationStrategy());
@@ -284,15 +284,15 @@ public class SynchronizationService {
 				InputStream stream = null;
 				
 				try {
-					urlString = SynchronizationService.this.getServiceUrl();
+					//urlString = SynchronizationService.this.getServiceUrl();
 					stream = SynchronizationService.this.getServiceStream();
 					
-					Log.d(LOG_TAG, "Synchronizing from 'assets'.");
+					Log.d(LOG_TAG, "Synchronizing from 'synchronize.xml'.");
 
 					if (stream != null) {
-						URL url = new URL(urlString);
+						//URL url = new URL(urlString);
 						//InputStream stream = url.openStream();
-						Log.d(LOG_TAG, url.toString());
+						//Log.d(LOG_TAG, url.toString());
 						
 						response = serializer.read(SynchronizationResponse.class, stream);
 					}
@@ -308,7 +308,7 @@ public class SynchronizationService {
 						//SynchronizationService.this.persistConfigurationList(response.getConfigurationList());
 					}
 					else {
-						throw new Exception("Service response is null using 'assets'.");
+						throw new Exception("Service response is null using 'synchronize.xml'.");
 					}
 					
 					// Runs the onCompleted event of the listener
@@ -321,7 +321,7 @@ public class SynchronizationService {
 					// Sends back the exception
 					if (SynchronizationService.this.getListener() != null) {
 						SynchronizationService.this.getListener().onError(new Exception(
-							"Failed to synchronize data from 'assets'.",
+							"Failed to synchronize data from 'synchronize.xml'.",
 							e
 							));
 					}
