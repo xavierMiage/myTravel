@@ -305,7 +305,7 @@ public class SynchronizationService {
 						SynchronizationService.this.persistTourItemList(response.getTourItemList());
 						SynchronizationService.this.persistTourItemImageList(response.getTourItemList());
 						SynchronizationService.this.persistCoordinateList(response.getCoordinateList());
-						//SynchronizationService.this.persistConfigurationList(response.getConfigurationList());
+						SynchronizationService.this.persistConfigurationList(response.getConfigurationList());
 					}
 					else {
 						throw new Exception("Service response is null using 'synchronize.xml'.");

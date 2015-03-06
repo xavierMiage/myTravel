@@ -5,9 +5,9 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Doudous/Desktop/adt-bundle-windows-x86_64-20140702/adt-bundle-windows-x86_64-20140702/sdk/extras/android/support/v4/android-support-v4.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Doudous/Desktop/Projet Android/ormlite-android-4.48.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Doudous/Desktop/Projet Android/ormlite-core-4.48.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Doudous/Desktop/Projet Android/simple-xml-2.7.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Sébastien/git/myTravel/ormlite-android-4.48.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Sébastien/git/myTravel/ormlite-core-4.48.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Sébastien/git/myTravel/simple-xml-2.7.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Sébastien/Desktop/adt-bundle-windows-x86_64-20140702/adt-bundle-windows-x86_64-20140702/sdk/extras/android/support/v4/android-support-v4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

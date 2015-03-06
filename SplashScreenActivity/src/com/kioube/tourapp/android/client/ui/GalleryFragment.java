@@ -3,7 +3,10 @@ package com.kioube.tourapp.android.client.ui;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +84,7 @@ public class GalleryFragment extends FragmentBase {
 		super.onCreateView(inflater, container, savedInstanceState);
 				
 		Context context = null;
+		
 		// Inflate the layout for this fragment
 		this.view = inflater.inflate(R.layout.fragment_gallery, container, false);
 		
@@ -88,17 +92,8 @@ public class GalleryFragment extends FragmentBase {
 		this.tourItemImageList = this.tourItemImageRepository.getByTourItem(this.getTourItem());
 		
 		Gallery gallery = (Gallery) this.getView().findViewById(R.id.galleryPhoto);
+		gallery.setSpacing(1);
 		gallery.setAdapter(new ThumbnailItemAdapter(this.getActivity(), this.tourItemImageList));		
-		
-		gallery.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-			{
-				//selectedImage.setImageResource(mImageIds[position]);					
-				GalleryFragment.this.getMainActivity().browseToImage(
-						tourItemImageList.get(position)
-					);				
-			}
-		});
 		
 		return this.view;
 	}
