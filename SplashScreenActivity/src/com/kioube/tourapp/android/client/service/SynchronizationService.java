@@ -1,11 +1,13 @@
 package com.kioube.tourapp.android.client.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -33,6 +35,7 @@ import com.kioube.tourapp.android.client.persistence.repository.TourItemImageRep
 import com.kioube.tourapp.android.client.persistence.repository.TourItemRepository;
 import com.kioube.tourapp.android.client.service.listener.ServiceListener;
 import com.kioube.tourapp.android.client.service.response.SynchronizationResponse;
+//import com.kioube.tourapp.android.client.ui.Date;
 
 public class SynchronizationService {
 	
@@ -56,8 +59,35 @@ public class SynchronizationService {
 	private TourItemRepository tourItemRepository;
 	private TourItemImageRepository tourItemImageRepository;
 	
+	private Boolean isSync = false;
+	
+	private boolean isConnectionAvailable;
+	
 	/* --- Getters & setters --- */
 	
+	/**
+	 * @author xavier
+	 * 
+	 * Get the connection available value
+	 * 
+	 * @return boolean
+	 */
+	public boolean getIsConnectionAvailable() {
+		return isConnectionAvailable;
+	}
+	
+	
+	/**
+	 * @author xavier
+	 * 
+	 * Set the connection available value
+	 * 
+	 * @param isConnectionAvailable
+	 */
+	public void setIsConnectionAvailable(boolean isConnectionAvailable) {
+		this.isConnectionAvailable = isConnectionAvailable;
+	}
+
 	/**
 	 * Gets the SynchronizationService object's context value
 	 * 
@@ -182,6 +212,23 @@ public class SynchronizationService {
 		this.listener = listener;
 	}
 	
+	/**
+	 * @author xavier
+	 * 
+	 * Constructs a new SynchronizationService object
+	 * 
+	 * @param context
+	 * @param listener
+	 * @param isConnectionAvailable
+	 */
+	public SynchronizationService(Context context, ServiceListener listener, boolean isConnectionAvailable) {
+		super();
+		
+		this.context = context;
+		this.listener = listener;
+		this.isConnectionAvailable = isConnectionAvailable;
+	}
+	
 	/* --- Class operations --- */
 	
 	/* --- Object operations --- */
@@ -275,27 +322,31 @@ public class SynchronizationService {
 			
 			@Override
 			public void run() {
-				//String urlString = null;
+				String urlString = null;
+				InputStream stream = null;
 				
 				// Deserializes from URL
 				Serializer serializer = new Persister(new AnnotationStrategy());
 				
 				SynchronizationResponse response = null;
-				InputStream stream = null;
 				
 				try {
-					//urlString = SynchronizationService.this.getServiceUrl();
-					stream = SynchronizationService.this.getServiceStream();
+					if(SynchronizationService.this.getIsConnectionAvailable() && !SynchronizationService.this.isSync) {
+						urlString = SynchronizationService.this.getServiceUrl();
+
+						if (urlString != null) {
+							URL url = new URL(urlString);
+							stream = url.openStream();
+							Log.d(LOG_TAG, url.toString());
+						}
+					}
+					else {
+						stream = SynchronizationService.this.getServiceStream();
+					}
 					
 					Log.d(LOG_TAG, "Synchronizing from 'synchronize.xml'.");
 
-					if (stream != null) {
-						//URL url = new URL(urlString);
-						//InputStream stream = url.openStream();
-						//Log.d(LOG_TAG, url.toString());
-						
-						response = serializer.read(SynchronizationResponse.class, stream);
-					}
+					response = serializer.read(SynchronizationResponse.class, stream);
 					
 					// Save data
 					if (response != null) {
@@ -497,5 +548,27 @@ public class SynchronizationService {
 				}
 			}
 		}
+	}
+
+	/**
+	 * @author xavier
+	 * 
+	 * Retourne la dernière date de modification du fichier xml
+	 * 
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public Date getLastUpdateDate() throws UnsupportedEncodingException {
+		// TODO Vérifier la fonction
+		File file = new File(this.getServiceUrl());
+		
+		Date d = new Date(file.lastModified());;
+		Log.d(LOG_TAG, d.toGMTString());
+		return d;
+	}
+	
+	
+	public void setIsSync(Boolean isSync) {
+		this.isSync= isSync;
 	}
 }

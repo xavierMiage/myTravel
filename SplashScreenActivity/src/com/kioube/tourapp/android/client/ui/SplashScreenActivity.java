@@ -1,5 +1,8 @@
 package com.kioube.tourapp.android.client.ui;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -152,9 +155,71 @@ public class SplashScreenActivity extends Activity {
 	protected void runSynchronization() {
 		// TODO [2014-03-xx, JMEL] Remove this fake load time when the data loading is implemented
 		
+		SynchronizationService service = new SynchronizationService(this, new ServiceListener() {
+			
+			// Occurs when the sync is done
+			@Override
+			public void onCompleted() {
+				SplashScreenActivity.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						
+						// Runs the next activity if there is no error
+						if (SplashScreenActivity.this.getException() == null) {
+							SplashScreenActivity.this.openNextActivity();
+						}
+					}
+				});
+				
+			}
+			
+			// Occurs on synchronization error
+			@Override
+			public void onError(Exception exception) {
+				SplashScreenActivity.this.setException(exception);
+				
+				SplashScreenActivity.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						
+						// Builds the error message
+						Exception exception = SplashScreenActivity.this.getException();
+						String message = SplashScreenActivity.getExceptionSummary(exception);
+						
+						// Shows the error message dialog
+						AlertDialog dialog = new AlertDialog.Builder(SplashScreenActivity.this)
+							.setTitle("Synchronize error !")
+							.setMessage(message)
+							.setIcon(android.R.drawable.ic_dialog_alert)
+							.setPositiveButton(android.R.string.ok, new OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									SplashScreenActivity.this.setException(null);
+									// SplashScreenActivity.this.openNextActivity();
+									
+									// Kills app
+									System.exit(0);
+								}
+							})
+							.show();
+						
+						// Dirty text size change
+						// TODO [2014-03-18, JMEL] Find a better way to set text size with styles (if I care later)
+						TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+					    textView.setTextSize(14);
+						
+						Log.e(LOG_TAG, exception.getMessage(), exception);
+					}
+				});
+			}
+		}, this.internetConnectionHelper.isInternetConnectionAvailable());
+		
 		// Check for internet connection
-		/*if (!this.internetConnectionHelper.isInternetConnectionAvailable()) {
-		new AlertDialog.Builder(this)
+		if (this.internetConnectionHelper.isInternetConnectionAvailable()) {
+		/*new AlertDialog.Builder(this)
 			.setTitle(this.getResources().getString(R.string.no_network))
 			.setMessage(this.getResources().getString(R.string.no_network_details))
 			.setIcon(android.R.drawable.ic_dialog_alert)
@@ -165,75 +230,28 @@ public class SplashScreenActivity extends Activity {
 					SplashScreenActivity.this.openNextActivity();
 				}
 			})
-			.show();			
+			.show();*/
+			
+			try {
+				Date lastUpdate = service.getLastUpdateDate();
+				
+				if(lastUpdate.compareTo(this.sessionManager.getLastSynchronizationDate()) >= 0) {
+					Log.d(LOG_TAG, "pas synchro");
+					service.setIsSync(false);
+				}
+				else {
+					Log.d(LOG_TAG, "synchro");
+					service.setIsSync(true);
+				}
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 		// Runs synchronization
-		else {*/
-			SynchronizationService service = new SynchronizationService(this, new ServiceListener() {
-				
-				// Occurs when the sync is done
-				@Override
-				public void onCompleted() {
-					SplashScreenActivity.this.runOnUiThread(new Runnable() {
-						
-						@Override
-						public void run() {
-							
-							// Runs the next activity if there is no error
-							if (SplashScreenActivity.this.getException() == null) {
-								SplashScreenActivity.this.openNextActivity();
-							}
-						}
-					});
-					
-				}
-				
-				// Occurs on synchronization error
-				@Override
-				public void onError(Exception exception) {
-					SplashScreenActivity.this.setException(exception);
-					
-					SplashScreenActivity.this.runOnUiThread(new Runnable() {
-						
-						@Override
-						public void run() {
-							
-							// Builds the error message
-							Exception exception = SplashScreenActivity.this.getException();
-							String message = SplashScreenActivity.getExceptionSummary(exception);
-							
-							// Shows the error message dialog
-							AlertDialog dialog = new AlertDialog.Builder(SplashScreenActivity.this)
-								.setTitle("Synchronize error !")
-								.setMessage(message)
-								.setIcon(android.R.drawable.ic_dialog_alert)
-								.setPositiveButton(android.R.string.ok, new OnClickListener() {
-									
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										SplashScreenActivity.this.setException(null);
-										// SplashScreenActivity.this.openNextActivity();
-										
-										// Kills app
-										System.exit(0);
-									}
-								})
-								.show();
-							
-							// Dirty text size change
-							// TODO [2014-03-18, JMEL] Find a better way to set text size with styles (if I care later)
-							TextView textView = (TextView) dialog.findViewById(android.R.id.message);
-						    textView.setTextSize(14);
-							
-							Log.e(LOG_TAG, exception.getMessage(), exception);
-						}
-					});
-				}
-			});
-			
-			service.run();
-		//}
+		service.run();
 	}
 	
 	/**
