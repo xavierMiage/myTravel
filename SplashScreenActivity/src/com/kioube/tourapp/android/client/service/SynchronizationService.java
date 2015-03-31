@@ -1,15 +1,27 @@
 package com.kioube.tourapp.android.client.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
@@ -26,6 +38,7 @@ import com.kioube.tourapp.android.client.domain.GeographicalArea;
 import com.kioube.tourapp.android.client.domain.Theme;
 import com.kioube.tourapp.android.client.domain.TourItem;
 import com.kioube.tourapp.android.client.domain.TourItemImage;
+import com.kioube.tourapp.android.client.helper.CallableTask;
 import com.kioube.tourapp.android.client.helper.SessionManager;
 import com.kioube.tourapp.android.client.persistence.repository.ConfigurationRepository;
 import com.kioube.tourapp.android.client.persistence.repository.CoordinateRepository;
@@ -45,6 +58,8 @@ public class SynchronizationService {
 	
 	/* --- Static fields --- */
 	
+	static final String file = "synchronize.xml";
+	
 	/* --- Fields --- */
 	
 	private Context context;
@@ -62,9 +77,20 @@ public class SynchronizationService {
 	private Boolean isSync = false;
 	
 	private boolean isConnectionAvailable;
+	private Date lastUpdatedXML = new Date(1970, 1, 1);
 	
 	/* --- Getters & setters --- */
 	
+	public Date getLastUpdatedXML() {
+		return lastUpdatedXML;
+	}
+
+
+	public void setLastUpdatedXML(Date lastUpdatedXML) {
+		this.lastUpdatedXML = lastUpdatedXML;
+	}
+
+
 	/**
 	 * @author xavier
 	 * 
@@ -240,7 +266,7 @@ public class SynchronizationService {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@SuppressLint("SimpleDateFormat")
-	private String getServiceUrl() throws UnsupportedEncodingException {
+	public String getServiceUrl() throws UnsupportedEncodingException {
 		String result = null;
 		
 		// TODO [2014-03-18, JMEL] For developement purposes, remove this when services are developed
@@ -274,7 +300,7 @@ public class SynchronizationService {
 			*/
 		}
 		else {
-			String serviceRoot = this.getContext().getString(R.string.serviceRoot) + "synchronize.xml";
+			String serviceRoot = this.getContext().getString(R.string.serviceRoot) + SynchronizationService.file;
 			
 			SessionManager sessionManager = new SessionManager(this.getContext());
 			
@@ -292,7 +318,7 @@ public class SynchronizationService {
 				result = String.format("%s?date=%s", serviceRoot, date);
 			}
 			
-			sessionManager.setLastSynchronizationDate();			
+			//sessionManager.setLastSynchronizationDate();			
 		}
 		
 		return result;
@@ -316,9 +342,9 @@ public class SynchronizationService {
 	 * Runs the synchronization service
 	 */
 	public void run() {
-		
-		// Creates the import thread
-		Thread thread = new Thread(new Runnable() {
+			
+			// Creates the import thread
+			Thread thread = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -327,39 +353,50 @@ public class SynchronizationService {
 				
 				// Deserializes from URL
 				Serializer serializer = new Persister(new AnnotationStrategy());
-				
+
+				SessionManager sessionManager = new SessionManager(SynchronizationService.this.getContext());
 				SynchronizationResponse response = null;
 				
 				try {
+					boolean needPersist = false;
 					if(SynchronizationService.this.getIsConnectionAvailable() && !SynchronizationService.this.isSync) {
 						urlString = SynchronizationService.this.getServiceUrl();
 
 						if (urlString != null) {
 							URL url = new URL(urlString);
 							stream = url.openStream();
-							Log.d(LOG_TAG, url.toString());
+							needPersist = true;
+							/*OutputStream fic = SynchronizationService.this.getContext().openFileOutput(SynchronizationService.file, Context.MODE_APPEND);
+							
+							Log.d(LOG_TAG, "Mise à jour du fichier...");
+							fic.write(source.getBytes());
+							fic.close();*/
 						}
 					}
-					else {
+					// First pull
+					else if(sessionManager.getLastSynchronizationDate().getTime() == 0) {
 						stream = SynchronizationService.this.getServiceStream();
+						needPersist = true;
 					}
 					
-					Log.d(LOG_TAG, "Synchronizing from 'synchronize.xml'.");
-
-					response = serializer.read(SynchronizationResponse.class, stream);
-					
-					// Save data
-					if (response != null) {
+					if(needPersist == true) {
+						Log.d(LOG_TAG, "Synchronizing from 'synchronize.xml'.");
+	
+						response = serializer.read(SynchronizationResponse.class, stream);
 						
-						SynchronizationService.this.persistGeographicalAreaList(response.getGeographicalAreaList());
-						SynchronizationService.this.persistThemeList(response.getThemeList());
-						SynchronizationService.this.persistTourItemList(response.getTourItemList());
-						SynchronizationService.this.persistTourItemImageList(response.getTourItemList());
-						SynchronizationService.this.persistCoordinateList(response.getCoordinateList());
-						SynchronizationService.this.persistConfigurationList(response.getConfigurationList());
-					}
-					else {
-						throw new Exception("Service response is null using 'synchronize.xml'.");
+						// Save data
+						if (response != null) {
+							
+							SynchronizationService.this.persistGeographicalAreaList(response.getGeographicalAreaList());
+							SynchronizationService.this.persistThemeList(response.getThemeList());
+							SynchronizationService.this.persistTourItemList(response.getTourItemList());
+							SynchronizationService.this.persistTourItemImageList(response.getTourItemList());
+							SynchronizationService.this.persistCoordinateList(response.getCoordinateList());
+							SynchronizationService.this.persistConfigurationList(response.getConfigurationList());
+						}
+						else {
+							throw new Exception("Service response is null using 'synchronize.xml'.");
+						}
 					}
 					
 					// Runs the onCompleted event of the listener
@@ -556,15 +593,101 @@ public class SynchronizationService {
 	 * Retourne la dernière date de modification du fichier xml
 	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException
+	 * @throws IOException 
+	 * @throws ParseException 
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public Date getLastUpdateDate() throws UnsupportedEncodingException {
+	public Date getLastUpdateDate() throws IOException, ParseException, InterruptedException, ExecutionException{
 		// TODO Vérifier la fonction
-		File file = new File(this.getServiceUrl());
+		//File file = new File(this.getServiceUrl());
 		
-		Date d = new Date(file.lastModified());;
-		Log.d(LOG_TAG, d.toGMTString());
-		return d;
+		//Date d = new Date(file.lastModified());;
+		//Log.d(LOG_TAG, d.toGMTString());
+		
+		//URL url = new URL(this.getServiceUrl());
+
+		//long date = url.openConnection().getHeaderFieldDate("Last-Modified", 0);
+		
+		//String date = conn.getHeaderField("Last-Modified");
+		
+		//SimpleDateFormat d = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+		
+		//Date d = new Date(date);
+		//Date d2 = d.parse(date);
+			 
+		
+		//conn.getHeaderField();
+		//return d2;
+		//return d;
+		
+		//Thread thread = new Thread(new Runnable() {
+		ExecutorService exec = Executors.newFixedThreadPool(3);
+	    CallableTask task = new CallableTask(this);
+	    // Submit the callable task to executor
+	    Future<Date> submittedTask = exec.submit(task);
+
+	    return submittedTask.get();
+		/*Thread thread = new Thread(new Callable() {
+			
+			/*@Override
+			public void run() {
+				URL url;
+				try {
+					url = new URL(SynchronizationService.this.getServiceUrl());
+
+					long date = url.openConnection().getHeaderFieldDate("Last-Modified", 0);
+
+					Date d = new Date(date);
+					
+					SynchronizationService.this.setLastUpdatedXML(d);
+					
+					Log.d(LOG_TAG, SynchronizationService.this.getLastUpdatedXML().toString());
+					
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public Date call() throws Exception {
+				Date d = null;
+				URL url;
+				try {
+					url = new URL(SynchronizationService.this.getServiceUrl());
+
+					long date = url.openConnection().getHeaderFieldDate("Last-Modified", 0);
+
+					d = new Date(date);
+					
+					SynchronizationService.this.setLastUpdatedXML(d);
+					
+					Log.d(LOG_TAG, SynchronizationService.this.getLastUpdatedXML().toString());
+					
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				return d;
+			}
+		});*/
+		
+		// Starts the import process
+		//thread.start();
 	}
 	
 	

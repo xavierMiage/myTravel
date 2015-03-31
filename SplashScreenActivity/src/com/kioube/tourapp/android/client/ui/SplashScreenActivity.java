@@ -1,7 +1,10 @@
 package com.kioube.tourapp.android.client.ui;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -233,10 +236,13 @@ public class SplashScreenActivity extends Activity {
 			.show();*/
 			
 			try {
-				Date lastUpdate = service.getLastUpdateDate();
+				Date d = service.getLastUpdateDate();
 				
-				if(lastUpdate.compareTo(this.sessionManager.getLastSynchronizationDate()) >= 0) {
+				if(service.getLastUpdatedXML().compareTo(d) >= 0) {
 					Log.d(LOG_TAG, "pas synchro");
+					Log.d(LOG_TAG, "ovh : " + service.getLastUpdatedXML().toGMTString());
+					Log.d(LOG_TAG, "local : " + d.toGMTString());
+					this.sessionManager.setLastSynchronizationDate();
 					service.setIsSync(false);
 				}
 				else {
@@ -244,6 +250,18 @@ public class SplashScreenActivity extends Activity {
 					service.setIsSync(true);
 				}
 			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
