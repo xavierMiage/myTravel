@@ -384,7 +384,7 @@ public class SynchronizationService {
 	
 						response = serializer.read(SynchronizationResponse.class, stream);
 						
-						// Save data
+						//  Save data
 						if (response != null) {
 							
 							SynchronizationService.this.persistGeographicalAreaList(response.getGeographicalAreaList());
