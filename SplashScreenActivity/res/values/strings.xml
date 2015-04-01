@@ -32,6 +32,7 @@
     <string name="navigation_messenger">Messenger</string>
     <string name="navigation_settings">Settings</string>
     <string name="navigation_synchronize">Synchronize data</string>
+    <string name="navigation_To">Naviguer vers ...</string>
     <string name="no_network">No network connection</string>
     <string name="no_network_details">Please check your internet connection and application connection mode.</string>
     <string name="now_disconnected_modetext">You are now in disconnected mode.</string>

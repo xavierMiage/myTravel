@@ -1,10 +1,13 @@
 package com.kioube.tourapp.android.client.ui;
 
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -153,6 +156,19 @@ public class MapFragment extends FragmentBase {
 			.title(this.getTourItem().getName())
 			.snippet(this.getCoordinateAsSnippetContent())
 		);
+		
+		//Ouverture du GPS
+		Button naviguer = (Button)this.view.findViewById(R.id.buttonNaviguer);
+		naviguer.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Uri gmmIntentUri = Uri.parse("google.navigation:q=" + getCoordinate().getLatitude() + ',' + getCoordinate().getLongitude() + "&mode=d");
+				Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+				mapIntent.setPackage("com.google.android.apps.maps");
+				startActivity(mapIntent);				
+			}
+		});
 		
 		return this.view;
 	}
