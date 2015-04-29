@@ -157,19 +157,6 @@ public class MapFragment extends FragmentBase {
 			.snippet(this.getCoordinateAsSnippetContent())
 		);
 		
-		//Ouverture du GPS
-		Button naviguer = (Button)this.view.findViewById(R.id.buttonNaviguer);
-		naviguer.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Uri gmmIntentUri = Uri.parse("google.navigation:q=" + getCoordinate().getLatitude() + ',' + getCoordinate().getLongitude() + "&mode=d");
-				Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-				mapIntent.setPackage("com.google.android.apps.maps");
-				startActivity(mapIntent);				
-			}
-		});
-		
 		return this.view;
 	}
 

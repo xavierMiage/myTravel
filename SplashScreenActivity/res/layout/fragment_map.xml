@@ -5,12 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".GoogleMapContainerFragment" >
-    
-    <Button
-        android:id="@+id/buttonNaviguer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/navigation_To" />
 
     <fragment
         android:id="@+id/google_map_fragment"
